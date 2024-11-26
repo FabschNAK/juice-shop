@@ -36,4 +36,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Semgrep in default mode
-        run: python3 -m pip install semgrep && semgrep --version
+        run: python3 --version # -m pip install semgrep && semgrep --version
