@@ -6,8 +6,8 @@ on:
       - master
   pull_request:
 jobs:
-  build:
-    name: Build
+  Trivy:
+    name: Trivy
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
