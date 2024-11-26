@@ -31,9 +31,20 @@ jobs:
   Semgrep:
     name: Semgrep
     runs-on: ubuntu-latest
+    outputs: 
+      output1: ${{ steps.step3.outputs }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install Semgrep
+        run: python3 -m pip install --upgrade requests && python3 -m pip install semgrep
+
       - name: Run Semgrep in default mode
-        run: python3 -m pip install --upgrade requests && python3 -m pip install semgrep && semgrep scan
+        run: semgrep scan >> "$GITHUB_OUTPUT"
+
+      # - name: 'Upload Artifact'
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: my-artifact
+      #     path: my_files.tar
