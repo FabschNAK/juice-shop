@@ -27,3 +27,12 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-results.sarif'
+  Semgrep:
+    name: Semgrep
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep in default mode
+        run: python3 -m pip install semgrep && semgrep --version
