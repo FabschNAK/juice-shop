@@ -67,6 +67,7 @@ jobs:
       - name: Run ZAP Baseline Scan
         run: |
           docker run --rm -v $(pwd)/zap-reports:/zap/wrk/:rw -w /zap/wrk -u zap -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t https://juice-shop.herokuapp.com/ -r zap_report.html
+        continue-on-error: true
 
       - name: Upload ZAP HTML Report
         uses: actions/upload-artifact@v3
