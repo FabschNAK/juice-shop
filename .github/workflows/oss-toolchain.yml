@@ -48,5 +48,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run NPM-Audit
-        run: npm install && npm audit
+      - name: Run npm install
+        run: npm install
+
+      - name: Run npm audit
+        run: npm audit
