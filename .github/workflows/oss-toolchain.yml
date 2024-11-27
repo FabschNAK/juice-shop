@@ -66,8 +66,7 @@ jobs:
 
       - name: Run ZAP Baseline Scan
         run: |
-          docker run --rm \
-          -v $(pwd)/zap-reports:/zap/wrk/:rw \
+          docker run --rm -v $(pwd)/zap-reports:/zap/wrk/:rw \
           -u $(id -u):$(id -g) \ -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
           -t https://juice-shop.herokuapp.com/ \
           -r zap_report.html
