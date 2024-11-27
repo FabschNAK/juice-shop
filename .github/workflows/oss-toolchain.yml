@@ -59,9 +59,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Prepare report directory
+        run: mkdir -p zap-reports
+
       - name: Run ZAP Baseline Scan
         run: |
-          docker run -v $(pwd):/zap/wrk/:rw -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
+          docker run -v $(pwd)/zap-reports:/zap/wrk/:rw -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
           -t https://juice-shop.herokuapp.com/ \
           -r zap_report.html
 
