@@ -59,5 +59,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Run npm install
-        run: docker run -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t https://juice-shop.herokuapp.com/
+      - name: Run ZAP Baseline Scan
+        run: |
+          docker run --rm -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py \
+          -t https://juice-shop.herokuapp.com/ \
+          -r zap_report.html
+
+      - name: Upload ZAP HTML Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: ZAP HTML Report
+          path: zap_report.html
