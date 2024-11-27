@@ -60,11 +60,15 @@ jobs:
     steps:
 
       - name: Prepare report directory
-        run: mkdir -p zap-reports
+        run: |
+          mkdir -p zap-reports
+          chmod 777 zap-reports  # Volle Schreibrechte für das Verzeichnis
 
       - name: Run ZAP Baseline Scan
         run: |
-          docker run -v $(pwd)/zap-reports:/zap/wrk/:rw -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
+          docker run --rm \
+          -v $(pwd)/zap-reports:/zap/wrk/:rw \
+          -u $(id -u):$(id -g) \ -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
           -t https://juice-shop.herokuapp.com/ \
           -r zap_report.html
 
