@@ -44,7 +44,7 @@ jobs:
       - name: Upload Semgrep Scan Report
         uses: actions/upload-artifact@v4
         with:
-          name: ZAP HTML Report
+          name: Semgrep Scan Report
           path: semgrep-scan.txt
 
   NPM-Audit:
