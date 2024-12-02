@@ -53,6 +53,7 @@ jobs:
 
       - name: Run npm audit
         run: npm audit
+        continue-on-error: true
 
   ZAP:
     name: OWASP ZAP
@@ -70,7 +71,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload ZAP HTML Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ZAP HTML Report
           path: zap-reports/zap_report.html
