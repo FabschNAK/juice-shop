@@ -108,9 +108,25 @@ jobs:
         run: |
           docker push 083592952377.dkr.ecr.eu-central-1.amazonaws.com/my-app:latest
 
-      - name: Start AWS Inspector Scan
-        run: |
-          aws inspector2 start-scan --resource-group-arn arn:aws:inspector2:eu-central-1:083592952377:resourcegroup/ecr
+      # - name: Start AWS Inspector Scan
+      #   run: |
+      #     aws inspector2 start-scan --resource-group-arn arn:aws:inspector2:eu-central-1:083592952377:resourcegroup/ecr
+
+      - name: Inspector Scan
+        id: inspector
+        uses: aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
+        with:
+          artifact_type: 'repository'
+
+          artifact_path: './'
+
+          display_vulnerability_findings: "enabled"
+
+          critical_threshold: 1
+          high_threshold: 1
+          medium_threshold: 1
+          low_threshold: 1
+          other_threshold: 1
 
       - name: Check Scan Results
         run: |
