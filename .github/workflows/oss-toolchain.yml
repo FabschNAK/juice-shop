@@ -127,9 +127,13 @@ jobs:
           medium_threshold: 1
           low_threshold: 1
           other_threshold: 1
-
-      - name: Check Scan Results
-        run: |
-          SCAN_ID=$(aws inspector2 list-findings --query 'findings[*].id' --output text)
-          echo "Scan ID: $SCAN_ID"
-          aws inspector2 list-findings --output json
+      
+      - name: Upload Scan Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: Inspector Vulnerability Scan Artifacts
+          path: |
+            ${{ steps.inspector.outputs.inspector_scan_results }}
+            ${{ steps.inspector.outputs.inspector_scan_results_csv }}
+            ${{ steps.inspector.outputs.artifact_sbom }}
+            ${{ steps.inspector.outputs.inspector_scan_results_markdown }}
