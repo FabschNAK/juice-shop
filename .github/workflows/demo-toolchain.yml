@@ -11,7 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Run Trivy vulnerability scanner in IaC mode
+      - name: Run Trivy in vulnerability scanner mode
         uses: aquasecurity/trivy-action@0.28.0
         with:
           scan-type: 'fs'
@@ -22,9 +22,10 @@ jobs:
           severity: 'CRITICAL,HIGH,MEDIUM,LOW'
 
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: actions/upload-artifact@v4
         with:
-          sarif_file: 'trivy-scan.sarif'
+          name: Trivy Scan Report
+          path: trivy-scan.sarif
 
   Semgrep:
     name: Semgrep
