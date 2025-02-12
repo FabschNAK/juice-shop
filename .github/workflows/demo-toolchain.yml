@@ -60,26 +60,26 @@ jobs:
   #       run: npm audit
   #       continue-on-error: true
 
-  # ZAP:
-  #   name: OWASP ZAP
-  #   runs-on: ubuntu-latest
-  #   steps:
+  ZAP:
+    name: OWASP ZAP
+    runs-on: ubuntu-latest
+    steps:
 
-  #     - name: Prepare report directory
-  #       run: |
-  #         mkdir -p zap-reports
-  #         chmod 777 zap-reports  # Volle Schreibrechte für das Verzeichnis
+      - name: Prepare report directory
+        run: |
+          mkdir -p zap-reports
+          chmod 777 zap-reports  # Volle Schreibrechte für das Verzeichnis
 
-  #     - name: Run ZAP Baseline Scan
-  #       run: |
-  #         docker run --rm -v $(pwd)/zap-reports:/zap/wrk/:rw -w /zap/wrk -u zap -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t https://juice-shop.herokuapp.com/ -r zap_report.html
-  #       continue-on-error: true
+      - name: Run ZAP Baseline Scan
+        run: |
+          docker run --rm -v $(pwd)/zap-reports:/zap/wrk/:rw -w /zap/wrk -u zap -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t https://juice-shop.herokuapp.com/ -r zap_report.html
+        continue-on-error: true
 
-  #     - name: Upload ZAP HTML Report
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: ZAP HTML Report
-  #         path: zap-reports/zap_report.html
+      - name: Upload ZAP HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZAP HTML Report
+          path: zap-reports/zap_report.html
 
   Inspector:
     name: Inspector
