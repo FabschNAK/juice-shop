@@ -4,28 +4,39 @@ on: [push]
 
 jobs:
 
-  # Trivy:
-  #   name: Trivy
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+  Trivy:
+    name: Trivy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     - name: Run Trivy in vulnerability scanner mode
-  #       uses: aquasecurity/trivy-action@0.28.0
-  #       with:
-  #         scan-type: 'fs'
-  #         hide-progress: true
-  #         format: 'sarif'
-  #         output: 'trivy-scan.sarif'
-  #         exit-code: '0'
-  #         severity: 'CRITICAL,HIGH,MEDIUM,LOW'
+      - name: Run Trivy in vulnerability scanner mode
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: 'fs'
+          hide-progress: true
+          format: 'sarif'
+          output: 'trivy-scan.sarif'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
 
-  #     - name: Upload Trivy scan results to GitHub Security tab
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: Trivy Scan Report
-  #         path: trivy-scan.sarif
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: actions/upload-artifact@v4
+        with:
+          name: Trivy Scan Report
+          path: trivy-scan.sarif
+
+  Gitleaks:
+    name: Gitleaks
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - uses: gitleaks/gitleaks-action@v2
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # Semgrep:
   #   name: Semgrep
@@ -137,13 +148,5 @@ jobs:
             ${{ steps.inspector.outputs.artifact_sbom }}
             ${{ steps.inspector.outputs.inspector_scan_results_markdown }}
 
-  Gitleaks:
-    - name: gitleaks
-      steps:
-        - uses: actions/checkout@v4
-          with:
-            fetch-depth: 0
-        - uses: gitleaks/gitleaks-action@v2
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
           
