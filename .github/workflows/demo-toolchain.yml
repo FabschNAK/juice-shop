@@ -14,10 +14,10 @@ jobs:
       - name: Run Trivy vulnerability scanner in IaC mode
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          scan-type: 'config'
+          scan-type: 'fs'
           hide-progress: true
           format: 'sarif'
-          output: 'trivy-results.sarif'
+          output: 'trivy-scan.sarif'
           exit-code: '0'
           severity: 'CRITICAL,HIGH,MEDIUM,LOW'
 
@@ -99,10 +99,10 @@ jobs:
       #   run: |
       #     aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 083592952377.dkr.ecr.eu-central-1.amazonaws.com
 
-      - name: Build Docker Image
-        run: |
-          docker build -t my-app:latest .
-      # docker tag my-app:latest 083592952377.dkr.ecr.eu-central-1.amazonaws.com/my-app:latest
+      # - name: Build Docker Image
+      #   run: |
+      #     docker build -t my-app:latest .
+      #     docker tag my-app:latest 083592952377.dkr.ecr.eu-central-1.amazonaws.com/my-app:latest
 
       # - name: Push Docker Image to ECR
       #   run: |
@@ -116,10 +116,8 @@ jobs:
         id: inspector
         uses: aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
         with:
-          artifact_type: 'container'
-
-          artifact_path: 'my-app:latest'
-
+          artifact_type: 'repository'
+          artifact_path: './'
           display_vulnerability_findings: "enabled"
 
           critical_threshold: 1
